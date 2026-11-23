@@ -1,35 +1,29 @@
-# Java PathFinder
-[![Build Status](https://travis-ci.org/javapathfinder/jpf-core.svg?branch=master)](https://travis-ci.org/javapathfinder/jpf-core)
+# Run via Docker
 
-An extensible software model checking framework for Java bytecode programs
+First change the directory of the assignment repo inside the `docker-compose.yml` file, change `~/git/pcd-assignment01` (line 16) in the volumes section the directory where your repo is located.
 
-## General Information about JPF
+You can build and run with one command:
+```sh
+export UID=$(id -u)
+export GID=$(id -g)
+docker compose up -d --build
+```
+This ensures that the user within the container is the same as your host user, so there are no ownership errors on the files created from within the container.
 
-All the latest developments, changes, documentation can be found on our
-[wiki](https://github.com/javapathfinder/jpf-core/wiki) page.
-
-## Building and Installing
-
-If you are having problems installing and running JPF, please look at the [How
-to install
-JPF](https://github.com/javapathfinder/jpf-core/wiki/How-to-install-JPF) guide.
-
-Note that we have transitioned to OpenJDK with the new version of JPF (for Java 11), so unlike branch `java-8`, the new default version for Java 11 no longer compiles using Oracle's JDK.
-
-We have documented on the wiki a lot of common problems during the install and
-build processes reported by users.  If you are facing any issue, please, make
-sure that we have not addressed it in documentation. Otherwise, feel free to
-contact us at java-pathfinder@googlegroups.com or open an issue on the Issue
-Tracker.
-
-## Documentation
-
-There is a constant effort to update and add JPF documentation on the wiki.
-If you would like to contribute in that, please, contact us at
-java-pathfinder@googlegroups.com.
-
-Contributions are welcomed and we encourage you to get involved with the
-community.
-
-Happy Verification
-*-- the Java PathFinder team*
+Open a shell inside the container with:
+```sh
+docker compose exec -it jpf-dev /bin/bash
+```
+You should already be inside the `jpf-core` directory, build `jpf-core` with:
+```sh
+./gradlew build
+```
+Then navigate to the assignment repo and build it:
+```sh
+cd /home/pcd-assignment01
+./gradlew build
+```
+You can now run `jpf` with the command:
+```sh
+java -jar /home/jpf-core/build/RunJPF.jar /home/pcd-assignment01/src/<any .jpf file>
+```

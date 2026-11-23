@@ -1,0 +1,19 @@
+services:
+  jpf-dev:
+    image: jpf-core
+    build:
+      context: .
+      args:
+        USERNAME: ${USER:-jpfdev}
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /home/jpf-core
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/home/jpf-core
+      - jpf-gradle-cache:/home/${USER:-jpfdev}/.gradle
+      - ~/git/pcd-assignment01:/home/pcd-assignment01
+
+volumes:
+  jpf-gradle-cache:
